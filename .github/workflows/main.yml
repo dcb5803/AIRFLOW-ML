@@ -1,0 +1,26 @@
+name: Airflow DAG CI
+
+on:
+  push:
+    paths:
+      - 'airflow_ml_pipeline.py'
+
+jobs:
+  test-dag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install apache-airflow pandas scikit-learn
+
+      - name: Run DAG tasks
+        run: |
+          python airflow_ml_pipeline.py
